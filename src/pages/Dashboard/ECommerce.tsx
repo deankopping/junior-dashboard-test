@@ -18,6 +18,9 @@ const ECommerce = () => {
         <CardTwo />
         <CardThree />
         <CardFour />
+      </div>
+
+      <div className="py-6 col-span-12 xl:col-span-8">
         <CardFive />
       </div>
 
