@@ -1,4 +1,4 @@
-import { SetStateAction, useState } from "react";
+import { useState } from "react";
 
 const cats = [
   {
@@ -110,11 +110,21 @@ const CardFive = () => {
         </div>
 
         <div className="flex items-center justify-center p-2.5 xl:p-5">
-          <p className="sm-text-xs text-black dark:text-white">{revenue}</p>
+          <p className="sm-text-xs text-black dark:text-white">
+            {revenue.toLocaleString("us-US", {
+              style: "currency",
+              currency: "USD",
+            })}
+          </p>
         </div>
 
         <div className="flex items-center justify-center p-2.5 xl:p-5">
-          <p className="sm-text-xs text-black dark:text-white">{cost}</p>
+          <p className="sm-text-xs text-black dark:text-white">
+            {cost.toLocaleString("us-US", {
+              style: "currency",
+              currency: "USD",
+            })}
+          </p>
         </div>
       </div>
     );
@@ -134,7 +144,7 @@ const CardFive = () => {
           id="dropdownHoverButton"
           onMouseEnter={() => setDropdownOpen(true)}
           onMouseLeave={() => setDropdownOpen(false)}
-          className="absolute right-7.5 bg-gray text-black text-absolute font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+          className="absolute right-7.5 bg-whiter p-1.5 dark:bg-meta-4 text-black text-black text-absolute font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
           type="button"
         >
           {currentCategoryName}
@@ -156,7 +166,7 @@ const CardFive = () => {
           {isDropdownOpen && (
             <div
               id="dropdownHover"
-              className="absolute z-10 mt-2 bg-gray divide-y divide-gray-100 rounded-lg shadow w-44"
+              className="absolute z-10 mt-2  bg-gray divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-meta-4"
               onMouseEnter={() => setDropdownOpen(true)}
               onMouseLeave={() => setDropdownOpen(false)}
             >
@@ -165,7 +175,7 @@ const CardFive = () => {
                   <li
                     key={category.id}
                     value={category.name}
-                    className="block px-4 py-2 hover:bg-white text-black rounded-lg"
+                    className="block px-4 py-2 hover:bg-white text-black rounded-lg dark:text-white hover:shadow-card dark:hover:bg-boxdark"
                     onClick={() => handleCategorySelect(category)}
                   >
                     {category.name}
