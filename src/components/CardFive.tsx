@@ -86,14 +86,38 @@ const CardFive = () => {
     currentCategoryID = id;
 
     setSelectedCategory(
-      products.filter((product) => product.categoryId === currentCategoryID)
+      relevantProducts.filter(
+        (product) => product.categoryId === currentCategoryID
+      )
     );
 
     setDropdownOpen(false);
   }
   function handleSortMethodSelect(method: SetStateAction<string>) {
+    if (method === "Revenue ↓")
+      relevantProducts = relevantProducts.sort((a, b) =>
+        b.salesRevenue > a.salesRevenue ? 1 : -1
+      );
+
+    if (method === "Revenue ↑")
+      relevantProducts = relevantProducts.sort((a, b) =>
+        a.salesRevenue - b.salesRevenue ? -1 : 1
+      );
+
+    if (method === "Cost ↓")
+      relevantProducts = relevantProducts.sort((a, b) =>
+        b.cost > a.cost ? 1 : -1
+      );
+
+    if (method === "Cost ↑")
+      relevantProducts = relevantProducts.sort((a, b) =>
+        a.cost - b.cost ? -1 : 1
+      );
+
     setSelectedSort(method);
     setSortMenuOpen(false);
+
+    handleCategorySelect(cats[currentCategoryID]);
   }
 
   function TableRow({
