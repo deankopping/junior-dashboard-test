@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 
 const cats = [
   {
@@ -18,6 +18,8 @@ const cats = [
     name: "Art",
   },
 ];
+
+const sortMethods = ["Revenue ↓", "Revenue ↑", "Cost ↓", "Cost ↑"];
 
 const products = [
   {
@@ -75,17 +77,23 @@ const CardFive = () => {
   const [selectedCategory, setSelectedCategory] = useState(relevantProducts);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
 
+  const [selectedSort, setSelectedSort] = useState("Revenue ↓");
+  const [isSortMenuOpen, setSortMenuOpen] = useState(false);
+
   let currentCategoryID = 0;
-  let currentCategoryName = "Categories";
 
   function handleCategorySelect({ id }: { id: number }) {
     currentCategoryID = id;
-    currentCategoryName = cats[id - 1].name;
 
     setSelectedCategory(
       products.filter((product) => product.categoryId === currentCategoryID)
     );
+
     setDropdownOpen(false);
+  }
+  function handleSortMethodSelect(method: SetStateAction<string>) {
+    setSelectedSort(method);
+    setSortMenuOpen(false);
   }
 
   function TableRow({
@@ -110,7 +118,7 @@ const CardFive = () => {
         </div>
 
         <div className="flex items-center justify-center p-2.5 xl:p-5">
-          <p className="sm-text-xs text-black dark:text-white">
+          <p className="sm-text-xs text-meta-3">
             {revenue.toLocaleString("us-US", {
               style: "currency",
               currency: "USD",
@@ -119,7 +127,7 @@ const CardFive = () => {
         </div>
 
         <div className="flex items-center justify-center p-2.5 xl:p-5">
-          <p className="sm-text-xs text-black dark:text-white">
+          <p className="sm-text-xs text-meta-1">
             {cost.toLocaleString("us-US", {
               style: "currency",
               currency: "USD",
@@ -132,14 +140,57 @@ const CardFive = () => {
 
   return (
     <div className="relative rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark">
-      {/**drop down menu */}
-
-      {/**table */}
-
       <span className="flex items-start">
         <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
           Products
         </h4>
+
+        <button
+          id="SortMenu"
+          onMouseEnter={() => setSortMenuOpen(true)}
+          onMouseLeave={() => setSortMenuOpen(false)}
+          className="absolute right-60 bg-whiter p-1.5 dark:bg-meta-4 text-black text-black text-absolute font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+          type="button"
+        >
+          {selectedSort}
+          <svg
+            className="w-2.5 h-2.5 ml-2.5"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 10 6"
+          >
+            <path
+              stroke="black"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="m1 1 4 4 4-4"
+            />
+          </svg>
+          {isSortMenuOpen && (
+            <div
+              id="SortMenuHover"
+              className="absolute z-10 mt-2  bg-gray divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-meta-4"
+              onMouseEnter={() => setSortMenuOpen(true)}
+              onMouseLeave={() => setSortMenuOpen(false)}
+            >
+              <ul>
+                {sortMethods.map((method, key) => (
+                  <li
+                    key={key}
+                    value={method}
+                    className="block px-4 py-2 hover:bg-white text-black rounded-lg dark:text-white hover:shadow-card dark:hover:bg-boxdark"
+                    onClick={() => handleSortMethodSelect(method)}
+                  >
+                    {method}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </button>
+
         <button
           id="dropdownHoverButton"
           onMouseEnter={() => setDropdownOpen(true)}
@@ -147,7 +198,7 @@ const CardFive = () => {
           className="absolute right-7.5 bg-whiter p-1.5 dark:bg-meta-4 text-black text-black text-absolute font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
           type="button"
         >
-          {currentCategoryName}
+          {cats[selectedCategory[0].categoryId - 1].name}
           <svg
             className="w-2.5 h-2.5 ml-2.5"
             aria-hidden="true"
