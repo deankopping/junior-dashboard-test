@@ -152,12 +152,12 @@ const CardFive = () => {
     cost: number;
   }) {
     return (
-      <div className="sm-text-xs grid grid-cols-4 border-b border-stroke dark:border-strokedark odd:bg-gray-2 dark:odd:bg-meta-4 ">
-        <div className="flex items-center justify-center p-2.5 xl:p-5">
-          <p className="sm-text-xs text-black dark:text-white ">{id}</p>
+      <div className="text-xs md:text-base grid grid-cols-4  border-b border-stroke dark:border-strokedark odd:bg-gray-2 dark:odd:bg-meta-4">
+        <div className="flex items-center justify-center p-2.5 xl:p-5 ">
+          <p className="text-black dark:text-white ">{id}</p>
         </div>
 
-        <div className="flex items-center justify-center p-2.5 xl:p-5">
+        <div className="flex items-center justify-center p-2.5 xl:p-5 text-left">
           <p className="sm-text-xs text-black dark:text-white">{name}</p>
         </div>
 
@@ -170,7 +170,7 @@ const CardFive = () => {
           </p>
         </div>
 
-        <div className="flex items-center justify-center p-2.5 xl:p-5">
+        <div className="flex items-center justify-center p-2.5 xl:p-5 ">
           <p className="sm-text-xs text-meta-1">
             {`( ${cost.toLocaleString("us-US", {
               style: "currency",
@@ -297,27 +297,19 @@ const CardFive = () => {
         </div>
       </span>
       <div>
-        <div className="flex flex-col">
+        <div className="flex flex-col text-xs md:text-base">
           <div className="grid grid-cols-4 rounded-sm bg-gray-2 dark:bg-meta-4">
-            <div className="p-2.5 text-center sm:block xl:p-5">
-              <h5 className="text-sm font-medium uppercase xsm:text-base">
-                ID
-              </h5>
+            <div className="p-2.5 text-center sm:block xl:p-5 ">
+              <h5 className=" font-medium uppercase ">ID</h5>
             </div>
             <div className="p-2.5 text-center sm:block xl:p-5">
-              <h5 className="text-sm font-medium uppercase xsm:text-base">
-                Name
-              </h5>
+              <h5 className=" font-medium uppercase ">Name</h5>
             </div>
             <div className="p-2.5 text-center sm:block xl:p-5 ">
-              <h5 className="text-sm font-medium uppercase xsm:text-base">
-                Revenue
-              </h5>
+              <h5 className="  font-medium uppercase ">Revenue</h5>
             </div>
             <div className="p-2.5 text-center sm:block xl:p-5">
-              <h5 className="text-sm font-medium uppercase xsm:text-base">
-                Cost
-              </h5>
+              <h5 className=" font-medium uppercase ">Cost</h5>
             </div>
           </div>
 
