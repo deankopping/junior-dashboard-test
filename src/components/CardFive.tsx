@@ -73,24 +73,33 @@ const products = [
   },
 ];
 let relevantProducts = products;
+
 const CardFive = () => {
-  const [selectedCategory, setSelectedCategory] = useState(relevantProducts);
+  const [selectedCategory, setSelectedCategory] = useState(products);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
 
   const [selectedSort, setSelectedSort] = useState("Revenue ↓");
   const [isSortMenuOpen, setSortMenuOpen] = useState(false);
 
   let currentCategoryID = 0;
+  let totalRevenue = findTotalRevenue();
+  let totalCost = findTotalCost();
 
   function handleCategorySelect({ id }: { id: number }) {
     currentCategoryID = id;
-
-    setSelectedCategory(
-      relevantProducts.filter(
-        (product) => product.categoryId === currentCategoryID
-      )
+    relevantProducts = products.filter(
+      (product) => product.categoryId === currentCategoryID
     );
-
+    setSelectedCategory(relevantProducts);
+    totalRevenue = findTotalRevenue();
+    totalCost = findTotalCost();
+    setDropdownOpen(false);
+  }
+  function handleCategorySelectAll() {
+    relevantProducts = products;
+    setSelectedCategory(products);
+    totalRevenue = findTotalRevenue();
+    totalCost = findTotalCost();
     setDropdownOpen(false);
   }
   function handleSortMethodSelect(method: SetStateAction<string>) {
@@ -120,6 +129,17 @@ const CardFive = () => {
     handleCategorySelect(cats[currentCategoryID + 1]);
   }
 
+  function findTotalRevenue() {
+    return relevantProducts.reduce(function (totalRevenue, product) {
+      return totalRevenue + product.salesRevenue;
+    }, 0);
+  }
+  function findTotalCost() {
+    return relevantProducts.reduce(function (totalCost, product) {
+      return totalCost + product.cost;
+    }, 0);
+  }
+
   function TableRow({
     id,
     name,
@@ -132,7 +152,7 @@ const CardFive = () => {
     cost: number;
   }) {
     return (
-      <div className="sm-text-xs grid grid-cols-4 border-b border-stroke dark:border-strokedark">
+      <div className="sm-text-xs grid grid-cols-4 border-b border-stroke dark:border-strokedark odd:bg-gray-2 dark:odd:bg-meta-4 ">
         <div className="flex items-center justify-center p-2.5 xl:p-5">
           <p className="sm-text-xs text-black dark:text-white ">{id}</p>
         </div>
@@ -152,10 +172,10 @@ const CardFive = () => {
 
         <div className="flex items-center justify-center p-2.5 xl:p-5">
           <p className="sm-text-xs text-meta-1">
-            {cost.toLocaleString("us-US", {
+            {`( ${cost.toLocaleString("us-US", {
               style: "currency",
               currency: "USD",
-            })}
+            })} )`}
           </p>
         </div>
       </div>
@@ -164,8 +184,8 @@ const CardFive = () => {
 
   return (
     <div className="relative rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark">
-      <span className="flex flex-row items-start min-w-47.5">
-        <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
+      <span className="flex flex-row items-start min-w-47.5 items-start">
+        <h4 className="mb-6 text-title-md font-bold text-black dark:text-white">
           Products
         </h4>
         <div className="absolute right-7.5 flex flex-row items-center">
@@ -176,7 +196,7 @@ const CardFive = () => {
             id="SortMenu"
             onMouseEnter={() => setSortMenuOpen(true)}
             onMouseLeave={() => setSortMenuOpen(false)}
-            className=" bg-whiter p-1.5 dark:bg-meta-4 text-black dark:text-white text-absolute font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+            className=" mr-2 relative bg-whiter p-1.5 dark:bg-meta-4 text-black dark:text-white text-absolute font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center"
             type="button"
           >
             {selectedSort}
@@ -198,7 +218,7 @@ const CardFive = () => {
             {isSortMenuOpen && (
               <div
                 id="SortMenuHover"
-                className="absolute z-10 mt-2  bg-gray divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-meta-4"
+                className="absolute top-9 right-0  z-10  w-30  bg-gray divide-y divide-gray-100 rounded-lg shadow dark:bg-meta-4"
                 onMouseEnter={() => setSortMenuOpen(true)}
                 onMouseLeave={() => setSortMenuOpen(false)}
               >
@@ -225,10 +245,12 @@ const CardFive = () => {
             id="dropdownHoverButton"
             onMouseEnter={() => setDropdownOpen(true)}
             onMouseLeave={() => setDropdownOpen(false)}
-            className="bg-whiter p-1.5 dark:bg-meta-4 text-black text-black text-absolute font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+            className="relative mb-0 bg-whiter p-1.5 dark:bg-meta-4 text-black dark:text-white text-absolute font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center"
             type="button"
           >
-            {cats[selectedCategory[0].categoryId - 1].name}
+            {relevantProducts.length !== products.length
+              ? cats[selectedCategory[0].categoryId - 1].name
+              : "All"}
             <svg
               className="w-2.5 h-2.5 ml-2.5"
               aria-hidden="true"
@@ -247,11 +269,17 @@ const CardFive = () => {
             {isDropdownOpen && (
               <div
                 id="dropdownHover"
-                className="absolute z-10 mt-2  bg-gray divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-meta-4"
+                className="absolute top-9 right-0 z-10 w-30   bg-gray divide-y divide-gray-100 rounded-lg shadow dark:bg-meta-4"
                 onMouseEnter={() => setDropdownOpen(true)}
                 onMouseLeave={() => setDropdownOpen(false)}
               >
                 <ul>
+                  <li
+                    className="block px-4 py-2 hover:bg-white text-black rounded-lg dark:text-white hover:shadow-card dark:hover:bg-boxdark"
+                    onClick={() => handleCategorySelectAll()}
+                  >
+                    All
+                  </li>
                   {cats.map((category, key) => (
                     <li
                       key={category.id}
@@ -295,7 +323,7 @@ const CardFive = () => {
 
           {selectedCategory.map((item, key) => (
             <TableRow
-              key={item.id}
+              key={key}
               id={item.id}
               name={item.name}
               revenue={item.salesRevenue}
@@ -308,13 +336,23 @@ const CardFive = () => {
         <div className="flex min-w-47.5">
           <div className="w-full">
             <p className="font-semibold text-primary">Total Revenue</p>
-            <p className="text-sm font-medium">12.04.2022 - 12.05.2022</p>
+            <p className="text-sm font-medium">
+              {totalRevenue.toLocaleString("us-US", {
+                style: "currency",
+                currency: "USD",
+              })}
+            </p>
           </div>
         </div>
         <div className="flex min-w-47.5">
           <div className="w-full">
-            <p className="font-semibold text-secondary">Total Sales</p>
-            <p className="text-sm font-medium">12.04.2022 - 12.05.2022</p>
+            <p className="font-semibold text-secondary">Total Profit</p>
+            <p className="text-sm font-medium">
+              {(totalRevenue - totalCost).toLocaleString("us-US", {
+                style: "currency",
+                currency: "USD",
+              })}
+            </p>
           </div>
         </div>
       </div>
