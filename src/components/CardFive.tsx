@@ -101,7 +101,7 @@ const CardFive = () => {
 
     if (method === "Revenue ↑")
       relevantProducts = relevantProducts.sort((a, b) =>
-        a.salesRevenue - b.salesRevenue ? -1 : 1
+        b.salesRevenue > a.salesRevenue ? -1 : 1
       );
 
     if (method === "Cost ↓")
@@ -111,13 +111,13 @@ const CardFive = () => {
 
     if (method === "Cost ↑")
       relevantProducts = relevantProducts.sort((a, b) =>
-        a.cost - b.cost ? -1 : 1
+        b.cost > a.cost ? -1 : 1
       );
 
     setSelectedSort(method);
     setSortMenuOpen(false);
 
-    handleCategorySelect(cats[currentCategoryID]);
+    handleCategorySelect(cats[currentCategoryID + 1]);
   }
 
   function TableRow({
@@ -164,102 +164,109 @@ const CardFive = () => {
 
   return (
     <div className="relative rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark">
-      <span className="flex items-start">
+      <span className="flex flex-row items-start min-w-47.5">
         <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
           Products
         </h4>
-
-        <button
-          id="SortMenu"
-          onMouseEnter={() => setSortMenuOpen(true)}
-          onMouseLeave={() => setSortMenuOpen(false)}
-          className="absolute right-60 bg-whiter p-1.5 dark:bg-meta-4 text-black text-black text-absolute font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
-          type="button"
-        >
-          {selectedSort}
-          <svg
-            className="w-2.5 h-2.5 ml-2.5"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 10 6"
+        <div className="absolute right-7.5 flex flex-row items-center">
+          <label className="dark:text-white text-black  font-medium rounded-lg text-sm text-center px-2.5 ">
+            Sort By:
+          </label>
+          <button
+            id="SortMenu"
+            onMouseEnter={() => setSortMenuOpen(true)}
+            onMouseLeave={() => setSortMenuOpen(false)}
+            className=" bg-whiter p-1.5 dark:bg-meta-4 text-black dark:text-white text-absolute font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+            type="button"
           >
-            <path
-              stroke="black"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="m1 1 4 4 4-4"
-            />
-          </svg>
-          {isSortMenuOpen && (
-            <div
-              id="SortMenuHover"
-              className="absolute z-10 mt-2  bg-gray divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-meta-4"
-              onMouseEnter={() => setSortMenuOpen(true)}
-              onMouseLeave={() => setSortMenuOpen(false)}
+            {selectedSort}
+            <svg
+              className="w-2.5 h-2.5 ml-2.5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 10 6"
             >
-              <ul>
-                {sortMethods.map((method, key) => (
-                  <li
-                    key={key}
-                    value={method}
-                    className="block px-4 py-2 hover:bg-white text-black rounded-lg dark:text-white hover:shadow-card dark:hover:bg-boxdark"
-                    onClick={() => handleSortMethodSelect(method)}
-                  >
-                    {method}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </button>
+              <path
+                stroke="black"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="m1 1 4 4 4-4"
+              />
+            </svg>
+            {isSortMenuOpen && (
+              <div
+                id="SortMenuHover"
+                className="absolute z-10 mt-2  bg-gray divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-meta-4"
+                onMouseEnter={() => setSortMenuOpen(true)}
+                onMouseLeave={() => setSortMenuOpen(false)}
+              >
+                <ul>
+                  {sortMethods.map((method, key) => (
+                    <li
+                      key={key}
+                      value={method}
+                      className="block px-4 py-2 hover:bg-white text-black rounded-lg dark:text-white hover:shadow-card dark:hover:bg-boxdark"
+                      onClick={() => handleSortMethodSelect(method)}
+                    >
+                      {method}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </button>
+          <label className="dark:text-white text-black  font-medium rounded-lg text-sm text-center items-start px-2.5 ">
+            Category:
+          </label>
 
-        <button
-          id="dropdownHoverButton"
-          onMouseEnter={() => setDropdownOpen(true)}
-          onMouseLeave={() => setDropdownOpen(false)}
-          className="absolute right-7.5 bg-whiter p-1.5 dark:bg-meta-4 text-black text-black text-absolute font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
-          type="button"
-        >
-          {cats[selectedCategory[0].categoryId - 1].name}
-          <svg
-            className="w-2.5 h-2.5 ml-2.5"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 10 6"
+          <button
+            id="dropdownHoverButton"
+            onMouseEnter={() => setDropdownOpen(true)}
+            onMouseLeave={() => setDropdownOpen(false)}
+            className="bg-whiter p-1.5 dark:bg-meta-4 text-black text-black text-absolute font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+            type="button"
           >
-            <path
-              stroke="black"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="m1 1 4 4 4-4"
-            />
-          </svg>
-          {isDropdownOpen && (
-            <div
-              id="dropdownHover"
-              className="absolute z-10 mt-2  bg-gray divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-meta-4"
-              onMouseEnter={() => setDropdownOpen(true)}
-              onMouseLeave={() => setDropdownOpen(false)}
+            {cats[selectedCategory[0].categoryId - 1].name}
+            <svg
+              className="w-2.5 h-2.5 ml-2.5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 10 6"
             >
-              <ul>
-                {cats.map((category, key) => (
-                  <li
-                    key={category.id}
-                    value={category.name}
-                    className="block px-4 py-2 hover:bg-white text-black rounded-lg dark:text-white hover:shadow-card dark:hover:bg-boxdark"
-                    onClick={() => handleCategorySelect(category)}
-                  >
-                    {category.name}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </button>
+              <path
+                stroke="black"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="m1 1 4 4 4-4"
+              />
+            </svg>
+            {isDropdownOpen && (
+              <div
+                id="dropdownHover"
+                className="absolute z-10 mt-2  bg-gray divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-meta-4"
+                onMouseEnter={() => setDropdownOpen(true)}
+                onMouseLeave={() => setDropdownOpen(false)}
+              >
+                <ul>
+                  {cats.map((category, key) => (
+                    <li
+                      key={category.id}
+                      value={category.name}
+                      className="block px-4 py-2 hover:bg-white text-black rounded-lg dark:text-white hover:shadow-card dark:hover:bg-boxdark"
+                      onClick={() => handleCategorySelect(category)}
+                    >
+                      {category.name}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </button>
+        </div>
       </span>
       <div>
         <div className="flex flex-col">
@@ -295,6 +302,20 @@ const CardFive = () => {
               cost={item.cost}
             ></TableRow>
           ))}
+        </div>
+      </div>
+      <div className="p-2.5 flex w-full flex-wrap gap-3 sm:gap-5">
+        <div className="flex min-w-47.5">
+          <div className="w-full">
+            <p className="font-semibold text-primary">Total Revenue</p>
+            <p className="text-sm font-medium">12.04.2022 - 12.05.2022</p>
+          </div>
+        </div>
+        <div className="flex min-w-47.5">
+          <div className="w-full">
+            <p className="font-semibold text-secondary">Total Sales</p>
+            <p className="text-sm font-medium">12.04.2022 - 12.05.2022</p>
+          </div>
         </div>
       </div>
     </div>
