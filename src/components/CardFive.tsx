@@ -152,13 +152,13 @@ const CardFive = () => {
     cost: number;
   }) {
     return (
-      <div className="text-xs md:text-base grid grid-cols-4  border-b border-stroke dark:border-strokedark odd:bg-gray-2 dark:odd:bg-meta-4">
+      <div className="text:base grid grid-cols-4  border-b border-stroke dark:border-strokedark odd:bg-gray-2 dark:odd:bg-meta-4 tracking-wide  ">
         <div className="flex items-center justify-center p-2.5 xl:p-5 ">
           <p className="text-black dark:text-white ">{id}</p>
         </div>
 
         <div className="flex items-center justify-center p-2.5 xl:p-5 text-left">
-          <p className="sm-text-xs text-black dark:text-white">{name}</p>
+          <p className=" sm-text-xs text-black dark:text-white">{name}</p>
         </div>
 
         <div className="flex items-center justify-center p-2.5 xl:p-5">
@@ -170,7 +170,7 @@ const CardFive = () => {
           </p>
         </div>
 
-        <div className="flex items-center justify-center p-2.5 xl:p-5 ">
+        <div className="flex items-center justify-center p-2.5 xl:p-5 whitespace-nowrap">
           <p className="sm-text-xs text-meta-1">
             {`( ${cost.toLocaleString("us-US", {
               style: "currency",
@@ -182,21 +182,61 @@ const CardFive = () => {
     );
   }
 
+  function ProductCard({
+    id,
+    name,
+    revenue,
+    cost,
+  }: {
+    id: number;
+    name: string;
+    revenue: number;
+    cost: number;
+  }) {
+    return (
+      <div className=" relative bg-gray-2 p-2 rounded-lg shadow  text-xs ">
+        <div className="absolute right-2">ID: {id}</div>
+        <div className="text-xs  font-semibold flex flex-wrap items-start justify-between gap-3">
+          {name}
+        </div>
+
+        <div className="text-xs flex flex-wrap items-start justify-between gap-3">
+          Revenue:{" "}
+          <p className="text-right text-meta-3 ">
+            {revenue.toLocaleString("us-US", {
+              style: "currency",
+              currency: "USD",
+            })}
+          </p>
+        </div>
+        <div className="text-xs flex flex-wrap items-start justify-between gap-3">
+          Cost:
+          <p className="text-right text-meta-1 ">
+            {cost.toLocaleString("us-US", {
+              style: "currency",
+              currency: "USD",
+            })}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="relative rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark">
-      <span className="flex flex-row items-start min-w-47.5 items-start">
+      <span className="flex flex-wrap items-start justify-between gap-3 ">
         <h4 className="mb-6 text-title-md font-bold text-black dark:text-white">
           Products
         </h4>
         <div className="absolute right-7.5 flex flex-row items-center">
-          <label className="dark:text-white text-black  font-medium rounded-lg text-sm text-center px-2.5 ">
+          <label className=" max-sm:hidden dark:text-white text-black  font-medium rounded-lg text-sm text-center px-2.5 ">
             Sort By:
           </label>
           <button
             id="SortMenu"
             onMouseEnter={() => setSortMenuOpen(true)}
             onMouseLeave={() => setSortMenuOpen(false)}
-            className=" mr-2 relative bg-whiter p-1.5 dark:bg-meta-4 text-black dark:text-white text-absolute font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center"
+            className=" text-xs md:text-base mr-2 relative bg-whiter p-1.5 dark:bg-meta-4 text-black dark:text-white text-absolute font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center"
             type="button"
           >
             {selectedSort}
@@ -237,7 +277,7 @@ const CardFive = () => {
               </div>
             )}
           </button>
-          <label className="dark:text-white text-black  font-medium rounded-lg text-sm text-center items-start px-2.5 ">
+          <label className="max-sm:hidden dark:text-white text-black  font-medium rounded-lg text-center items-start px-2.5 ">
             Category:
           </label>
 
@@ -245,7 +285,7 @@ const CardFive = () => {
             id="dropdownHoverButton"
             onMouseEnter={() => setDropdownOpen(true)}
             onMouseLeave={() => setDropdownOpen(false)}
-            className="relative mb-0 bg-whiter p-1.5 dark:bg-meta-4 text-black dark:text-white text-absolute font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center"
+            className="relative text-xs md:text-base mb-0 bg-whiter p-1.5 dark:bg-meta-4 text-black dark:text-white text-absolute font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center"
             type="button"
           >
             {relevantProducts.length !== products.length
@@ -296,35 +336,47 @@ const CardFive = () => {
           </button>
         </div>
       </span>
-      <div>
-        <div className="flex flex-col text-xs md:text-base">
-          <div className="grid grid-cols-4 rounded-sm bg-gray-2 dark:bg-meta-4">
-            <div className="p-2.5 text-center sm:block xl:p-5 ">
-              <h5 className=" font-medium uppercase ">ID</h5>
-            </div>
-            <div className="p-2.5 text-center sm:block xl:p-5">
-              <h5 className=" font-medium uppercase ">Name</h5>
-            </div>
-            <div className="p-2.5 text-center sm:block xl:p-5 ">
-              <h5 className="  font-medium uppercase ">Revenue</h5>
-            </div>
-            <div className="p-2.5 text-center sm:block xl:p-5">
-              <h5 className=" font-medium uppercase ">Cost</h5>
-            </div>
-          </div>
 
-          {selectedCategory.map((item, key) => (
-            <TableRow
-              key={key}
-              id={item.id}
-              name={item.name}
-              revenue={item.salesRevenue}
-              cost={item.cost}
-            ></TableRow>
-          ))}
+      <div className="flex flex-col text-base hidden md:block">
+        <div className="grid grid-cols-4 rounded-sm bg-gray-2 dark:bg-meta-4 ">
+          <div className="p-2.5 text-center sm:block xl:p-5 ">
+            <h5 className=" font-medium uppercase ">ID</h5>
+          </div>
+          <div className="p-2.5 text-center sm:block xl:p-5">
+            <h5 className=" font-medium uppercase ">Name</h5>
+          </div>
+          <div className="p-2.5 text-center sm:block xl:p-5 ">
+            <h5 className="  font-medium uppercase ">Revenue</h5>
+          </div>
+          <div className="p-2.5 text-center sm:block xl:p-5">
+            <h5 className=" font-medium uppercase ">Cost</h5>
+          </div>
         </div>
+
+        {selectedCategory.map((item, key) => (
+          <TableRow
+            key={key}
+            id={item.id}
+            name={item.name}
+            revenue={item.salesRevenue}
+            cost={item.cost}
+          ></TableRow>
+        ))}
       </div>
-      <div className="p-2.5 flex w-full flex-wrap gap-3 sm:gap-5">
+
+      <div className="grid grid-cols-1 gap-4 md:hidden">
+        {selectedCategory.map((item, key) => (
+          <ProductCard
+            key={key}
+            id={item.id}
+            name={item.name}
+            revenue={item.salesRevenue}
+            cost={item.cost}
+          ></ProductCard>
+        ))}
+      </div>
+
+      <div className="p-2.5 mt-5 flex w-full  ">
         <div className="flex min-w-47.5">
           <div className="w-full">
             <p className="font-semibold text-primary">Total Revenue</p>
