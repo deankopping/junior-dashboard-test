@@ -40,7 +40,7 @@ const products = [
     id: 3,
     name: "Adidas shoes",
     salesRevenue: 123,
-    cost: 100,
+    cost: 200,
     categoryId: 1,
   },
   {
@@ -68,65 +68,66 @@ const products = [
     id: 7,
     name: "Plain green T",
     salesRevenue: 901,
-    cost: 100,
+    cost: 200,
     categoryId: 2,
   },
 ];
 let relevantProducts = products;
 
 const CardFive = () => {
-  const [selectedCategory, setSelectedCategory] = useState(products);
+  const [selectedCategory, setSelectedCategory] = useState(0);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
 
   const [selectedSort, setSelectedSort] = useState("Revenue ↓");
   const [isSortMenuOpen, setSortMenuOpen] = useState(false);
 
-  let currentCategoryID = 0;
   let totalRevenue = findTotalRevenue();
   let totalCost = findTotalCost();
 
-  function handleCategorySelect({ id }: { id: number }) {
-    currentCategoryID = id;
-    relevantProducts = products.filter(
-      (product) => product.categoryId === currentCategoryID
+  if (selectedSort === "Revenue ↓")
+    relevantProducts = relevantProducts.sort((a, b) =>
+      b.salesRevenue > a.salesRevenue ? 1 : -1
     );
-    setSelectedCategory(relevantProducts);
+
+  if (selectedSort === "Revenue ↑")
+    relevantProducts = relevantProducts.sort((a, b) =>
+      b.salesRevenue > a.salesRevenue ? -1 : 1
+    );
+
+  if (selectedSort === "Cost ↓")
+    relevantProducts = relevantProducts.sort((a, b) =>
+      b.cost > a.cost ? 1 : -1
+    );
+
+  if (selectedSort === "Cost ↑")
+    relevantProducts = relevantProducts.sort((a, b) =>
+      b.cost > a.cost ? -1 : 1
+    );
+
+  function handleCategorySelect(id: number) {
+    relevantProducts =
+      id != 0
+        ? products.filter((product) => product.categoryId === id)
+        : (relevantProducts = products);
+
+    setSelectedCategory(id);
     totalRevenue = findTotalRevenue();
     totalCost = findTotalCost();
     setDropdownOpen(false);
   }
+
   function handleCategorySelectAll() {
     relevantProducts = products;
-    setSelectedCategory(products);
+    setSelectedCategory(0);
     totalRevenue = findTotalRevenue();
     totalCost = findTotalCost();
     setDropdownOpen(false);
   }
   function handleSortMethodSelect(method: SetStateAction<string>) {
-    if (method === "Revenue ↓")
-      relevantProducts = relevantProducts.sort((a, b) =>
-        b.salesRevenue > a.salesRevenue ? 1 : -1
-      );
-
-    if (method === "Revenue ↑")
-      relevantProducts = relevantProducts.sort((a, b) =>
-        b.salesRevenue > a.salesRevenue ? -1 : 1
-      );
-
-    if (method === "Cost ↓")
-      relevantProducts = relevantProducts.sort((a, b) =>
-        b.cost > a.cost ? 1 : -1
-      );
-
-    if (method === "Cost ↑")
-      relevantProducts = relevantProducts.sort((a, b) =>
-        b.cost > a.cost ? -1 : 1
-      );
-
     setSelectedSort(method);
     setSortMenuOpen(false);
 
-    handleCategorySelect(cats[currentCategoryID + 1]);
+    handleCategorySelect(selectedCategory);
   }
 
   function findTotalRevenue() {
@@ -196,11 +197,9 @@ const CardFive = () => {
     return (
       <div className=" relative bg-gray-2 p-2 rounded-lg shadow  text-xs ">
         <div className="absolute right-2">ID: {id}</div>
-        <div className="text-xs  font-semibold flex flex-wrap items-start justify-between gap-3">
-          {name}
-        </div>
+        <div className="text-xs  font-semibold flex flex-wrap ">{name}</div>
 
-        <div className="text-xs flex flex-wrap items-start justify-between gap-3">
+        <div className="text-xs flex flex-wrap justify-between ">
           Revenue:{" "}
           <p className="text-right text-meta-3 ">
             {revenue.toLocaleString("us-US", {
@@ -209,7 +208,7 @@ const CardFive = () => {
             })}
           </p>
         </div>
-        <div className="text-xs flex flex-wrap items-start justify-between gap-3">
+        <div className="text-xs flex flex-wrap justify-between">
           Cost:
           <p className="text-right text-meta-1 ">
             {cost.toLocaleString("us-US", {
@@ -288,8 +287,8 @@ const CardFive = () => {
             className="relative text-xs md:text-base mb-0 bg-whiter p-1.5 dark:bg-meta-4 text-black dark:text-white text-absolute font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center"
             type="button"
           >
-            {relevantProducts.length !== products.length
-              ? cats[selectedCategory[0].categoryId - 1].name
+            {selectedCategory !== 0
+              ? cats.find((cat) => cat.id === selectedCategory)?.name
               : "All"}
             <svg
               className="w-2.5 h-2.5 ml-2.5"
@@ -325,7 +324,7 @@ const CardFive = () => {
                       key={category.id}
                       value={category.name}
                       className="block px-4 py-2 hover:bg-white text-black rounded-lg dark:text-white hover:shadow-card dark:hover:bg-boxdark"
-                      onClick={() => handleCategorySelect(category)}
+                      onClick={() => handleCategorySelect(category.id)}
                     >
                       {category.name}
                     </li>
@@ -353,7 +352,7 @@ const CardFive = () => {
           </div>
         </div>
 
-        {selectedCategory.map((item, key) => (
+        {relevantProducts.map((item, key) => (
           <TableRow
             key={key}
             id={item.id}
@@ -365,7 +364,7 @@ const CardFive = () => {
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:hidden">
-        {selectedCategory.map((item, key) => (
+        {relevantProducts.map((item, key) => (
           <ProductCard
             key={key}
             id={item.id}
@@ -376,7 +375,7 @@ const CardFive = () => {
         ))}
       </div>
 
-      <div className="p-2.5 mt-5 flex w-full  ">
+      <div className="p-2.5 mt-3 flex ">
         <div className="flex min-w-47.5">
           <div className="w-full">
             <p className="font-semibold text-primary">Total Revenue</p>
