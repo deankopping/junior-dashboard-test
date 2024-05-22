@@ -40,7 +40,7 @@ const products = [
     id: 3,
     name: "Adidas shoes",
     salesRevenue: 123,
-    cost: 200,
+    cost: 100,
     categoryId: 1,
   },
   {
@@ -68,7 +68,7 @@ const products = [
     id: 7,
     name: "Plain green T",
     salesRevenue: 901,
-    cost: 200,
+    cost: 100,
     categoryId: 2,
   },
 ];
@@ -195,11 +195,15 @@ const CardFive = () => {
     cost: number;
   }) {
     return (
-      <div className=" relative bg-gray-2 p-2 rounded-lg shadow  text-xs ">
-        <div className="absolute right-2">ID: {id}</div>
-        <div className="text-xs  font-semibold flex flex-wrap ">{name}</div>
+      <div className=" relative bg-gray-2 p-2 rounded-lg shadow  text-xs bg-gray-2 dark:bg-meta-4">
+        <div className="absolute right-2 text-black dark:text-white">
+          ID: {id}
+        </div>
+        <div className="text-xs  font-semibold flex flex-wrap text-black dark:text-white mb-0.5 ">
+          {name}
+        </div>
 
-        <div className="text-xs flex flex-wrap justify-between ">
+        <div className="text-xs flex flex-wrap justify-between text-black dark:text-white mb-0.5">
           Revenue:{" "}
           <p className="text-right text-meta-3 ">
             {revenue.toLocaleString("us-US", {
@@ -208,7 +212,7 @@ const CardFive = () => {
             })}
           </p>
         </div>
-        <div className="text-xs flex flex-wrap justify-between">
+        <div className="text-xs flex flex-wrap justify-between text-black dark:text-white ">
           Cost:
           <p className="text-right text-meta-1 ">
             {cost.toLocaleString("us-US", {
@@ -222,61 +226,14 @@ const CardFive = () => {
   }
 
   return (
-    <div className="relative rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark">
-      <span className="flex flex-wrap items-start justify-between gap-3 ">
-        <h4 className="mb-6 text-title-md font-bold text-black dark:text-white">
+    <div className="relative rounded-sm border border-stroke bg-white py-6 px-4 sm:px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark">
+      <div className="flex flex-wrap items-start justify-between gap-3 ">
+        <h4 className=" text-title-md font-bold text-black dark:text-white">
           Products
         </h4>
-        <div className="absolute right-7.5 flex flex-row items-center">
-          <label className=" max-sm:hidden dark:text-white text-black  font-medium rounded-lg text-sm text-center px-2.5 ">
-            Sort By:
-          </label>
-          <button
-            id="SortMenu"
-            onMouseEnter={() => setSortMenuOpen(true)}
-            onMouseLeave={() => setSortMenuOpen(false)}
-            className=" text-xs md:text-base mr-2 relative bg-whiter p-1.5 dark:bg-meta-4 text-black dark:text-white text-absolute font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center"
-            type="button"
-          >
-            {selectedSort}
-            <svg
-              className="w-2.5 h-2.5 ml-2.5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 10 6"
-            >
-              <path
-                stroke="black"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="m1 1 4 4 4-4"
-              />
-            </svg>
-            {isSortMenuOpen && (
-              <div
-                id="SortMenuHover"
-                className="absolute top-9 right-0  z-10  w-30  bg-gray divide-y divide-gray-100 rounded-lg shadow dark:bg-meta-4"
-                onMouseEnter={() => setSortMenuOpen(true)}
-                onMouseLeave={() => setSortMenuOpen(false)}
-              >
-                <ul>
-                  {sortMethods.map((method, key) => (
-                    <li
-                      key={key}
-                      value={method}
-                      className="block px-4 py-2 hover:bg-white text-black rounded-lg dark:text-white hover:shadow-card dark:hover:bg-boxdark"
-                      onClick={() => handleSortMethodSelect(method)}
-                    >
-                      {method}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </button>
-          <label className="max-sm:hidden dark:text-white text-black  font-medium rounded-lg text-center items-start px-2.5 ">
+
+        <div className=" right-7.5 flex flex-row items-center mb-4">
+          <label className="hidden md:block text-xs sm:text-sm dark:text-white text-black  font-medium rounded-lg text-center items-start px-2.5 ">
             Category:
           </label>
 
@@ -284,7 +241,7 @@ const CardFive = () => {
             id="dropdownHoverButton"
             onMouseEnter={() => setDropdownOpen(true)}
             onMouseLeave={() => setDropdownOpen(false)}
-            className="relative text-xs md:text-base mb-0 bg-whiter p-1.5 dark:bg-meta-4 text-black dark:text-white text-absolute font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center"
+            className="relative text-xs md:text-sm mb-0 bg-whiter p-1.5 dark:bg-meta-4 text-black dark:text-white text-absolute font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center"
             type="button"
           >
             {selectedCategory !== 0
@@ -333,11 +290,59 @@ const CardFive = () => {
               </div>
             )}
           </button>
+          <label className="hidden md:block  text-xs sm:text-sm dark:text-white text-black  font-medium rounded-lg text-center px-2.5 ">
+            Sort By:
+          </label>
+          <button
+            id="SortMenu"
+            onMouseEnter={() => setSortMenuOpen(true)}
+            onMouseLeave={() => setSortMenuOpen(false)}
+            className=" text-xs md:text-sm mr-2 relative bg-whiter p-1.5 dark:bg-meta-4 text-black dark:text-white text-absolute font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center"
+            type="button"
+          >
+            {selectedSort}
+            <svg
+              className="w-2.5 h-2.5 ml-2.5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 10 6"
+            >
+              <path
+                stroke="black"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="m1 1 4 4 4-4"
+              />
+            </svg>
+            {isSortMenuOpen && (
+              <div
+                id="SortMenuHover"
+                className="absolute top-9 right-0  z-10  w-30  bg-gray divide-y divide-gray-100 rounded-lg shadow dark:bg-meta-4"
+                onMouseEnter={() => setSortMenuOpen(true)}
+                onMouseLeave={() => setSortMenuOpen(false)}
+              >
+                <ul>
+                  {sortMethods.map((method, key) => (
+                    <li
+                      key={key}
+                      value={method}
+                      className="block px-4 py-2 hover:bg-white text-black rounded-lg dark:text-white hover:shadow-card dark:hover:bg-boxdark"
+                      onClick={() => handleSortMethodSelect(method)}
+                    >
+                      {method}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </button>
         </div>
-      </span>
+      </div>
 
-      <div className="flex flex-col text-base hidden md:block">
-        <div className="grid grid-cols-4 rounded-sm bg-gray-2 dark:bg-meta-4 ">
+      <div className="flex flex-col text-base hidden md:block ">
+        <div className="grid grid-cols-4 rounded-sm bg-gray-2 dark:bg-meta-4 border border-stroke dark:border-strokedark ">
           <div className="p-2.5 text-center sm:block xl:p-5 ">
             <h5 className=" font-medium uppercase ">ID</h5>
           </div>
@@ -363,7 +368,7 @@ const CardFive = () => {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 gap-4 md:hidden">
+      <div className="grid grid-cols-1 gap-3 md:hidden ">
         {relevantProducts.map((item, key) => (
           <ProductCard
             key={key}
