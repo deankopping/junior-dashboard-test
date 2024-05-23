@@ -206,8 +206,8 @@ const CardFive = () => {
   return (
     <div className="relative rounded-sm border border-stroke bg-white py-6 px-4 sm:px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark">
       <div className="flex flex-wrap items-start justify-between gap-3">
-        <h4 className="text-title-md font-bold text-black dark:text-white">
-          Products
+        <h4 className="text-title-md font-bold text-black dark:text-white w-100">
+          Product sales
         </h4>
         <div className="right-7.5 flex flex-row items-center mb-4">
           <label className="hidden md:block text-xs sm:text-sm dark:text-white text-black font-medium rounded-lg text-center items-start px-2.5">
@@ -241,7 +241,7 @@ const CardFive = () => {
             {isDropdownOpen && (
               <div
                 id="dropdownHover"
-                className="absolute top-9 right-0 z-10 w-30 bg-gray divide-y divide-gray-100 rounded-lg shadow dark:bg-meta-4"
+                className="absolute top-9 left-0 sm:right-0 z-10 w-30 bg-gray divide-y divide-gray-100 rounded-lg shadow dark:bg-meta-4"
                 onMouseEnter={() => setDropdownOpen(true)}
                 onMouseLeave={() => setDropdownOpen(false)}
               >
@@ -295,7 +295,7 @@ const CardFive = () => {
             {isSortMenuOpen && (
               <div
                 id="SortMenuHover"
-                className="absolute top-9 right-0 z-10 w-30 bg-gray divide-y divide-gray-100 rounded-lg shadow dark:bg-meta-4"
+                className="absolute top-9 left-0 sm:right-0 z-10 w-30 bg-gray divide-y divide-gray-100 rounded-lg shadow dark:bg-meta-4"
                 onMouseEnter={() => setSortMenuOpen(true)}
                 onMouseLeave={() => setSortMenuOpen(false)}
               >

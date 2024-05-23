@@ -1,10 +1,13 @@
 import { Swr } from "./Swr";
+import { dotWave } from "ldrs";
+
+dotWave.register();
 
 const CardTwo = () => {
   const swrComponent = Swr();
 
   try {
-    let totalProfit = swrComponent.total_profit;
+    let totalProfit = swrComponent.data.total_profit;
     let amount = totalProfit.amount;
     let changePercent = totalProfit.change_percent;
 
@@ -54,7 +57,7 @@ const CardTwo = () => {
               changePercent >= 0 ? "text-meta-3" : "text-meta-5"
             }`}
           >
-            {changePercent}%
+            {Math.round(changePercent * 100) / 100}%
             <svg
               className={`${
                 changePercent >= 0 ? "fill-meta-3" : "fill-meta-5"
@@ -78,7 +81,27 @@ const CardTwo = () => {
         </div>
       </div>
     );
-  } catch (err) {}
+  } catch (err) {
+    {
+      if (!swrComponent.isLoading) {
+        return (
+          <div className="grid grid-cols-1 justify-items-center rounded-sm border border-stroke bg-gray py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark content-center">
+            <l-dot-wave color="gray"></l-dot-wave>
+          </div>
+        );
+      } else {
+        return (
+          <div
+            className="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4"
+            role="alert"
+          >
+            <p className="font-bold">Error</p>
+            <p>{swrComponent.error}</p>
+          </div>
+        );
+      }
+    }
+  }
 };
 
 export default CardTwo;
