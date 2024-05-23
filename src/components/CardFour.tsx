@@ -72,9 +72,9 @@ const CardFour = () => {
       </div>
     );
   } catch (err) {
-    if (!swrComponent.isLoading) {
+    if (swrComponent.isLoading) {
       return (
-        <div className="grid grid-cols-1 justify-items-center rounded-sm border border-stroke bg-gray py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark content-center">
+        <div className="grid grid-cols-1 justify-items-center rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark content-center">
           <l-dot-wave color="gray"></l-dot-wave>
         </div>
       );
@@ -84,7 +84,9 @@ const CardFour = () => {
           className="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4"
           role="alert"
         >
-          <p className="font-bold">Error</p>
+          <p className="font-bold">
+            An error has occured while fetching the data
+          </p>
           <p>{swrComponent.error}</p>
         </div>
       );

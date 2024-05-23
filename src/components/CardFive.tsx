@@ -141,11 +141,11 @@ const CardFive = () => {
     revenue: number;
     cost: number;
   }) => (
-    <div className="text:base grid grid-cols-4 border-b border-stroke dark:border-strokedark odd:bg-gray-2 dark:odd:bg-meta-4 tracking-wide">
+    <div className="text:base grid grid-cols-4 border-b border-stroke dark:border-strokedark odd:bg-gray-2 dark:odd:bg-meta-4 tracking-wide ">
       <div className="flex items-center justify-center p-2.5 xl:p-5">
         <p className="text-black dark:text-white">{id}</p>
       </div>
-      <div className="flex items-center justify-center p-2.5 xl:p-5 text-left">
+      <div className="flex items-center justify-center p-2.5 xl:p-5 ">
         <p className="sm-text-xs text-black dark:text-white">{name}</p>
       </div>
       <div className="flex items-center justify-center p-2.5 xl:p-5">
@@ -156,7 +156,7 @@ const CardFive = () => {
           })}
         </p>
       </div>
-      <div className="flex items-center justify-center p-2.5 xl:p-5 whitespace-nowrap">
+      <div className="flex items-center justify-center p-2.5 xl:p-5 ">
         <p className="sm-text-xs text-meta-1">
           {`( ${cost.toLocaleString("us-US", {
             style: "currency",
